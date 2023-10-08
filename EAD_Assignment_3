@@ -1,0 +1,369 @@
+using System;
+
+//// Q1-a ////
+--------------
+
+
+class Program
+{
+    static void Greet(string greeting = "Hello", string name = "World")
+    {
+        string message = $"{greeting}, {name}!";
+        Console.WriteLine(message);
+    }
+    static void Main()
+    {
+        Greet();             
+        Greet("hello");   
+        Greet("Wslam", "Ali");
+    }
+}
+
+
+//// Q1-b ////
+--------------
+
+
+class Program
+{
+    static double CalculateArea(double length = 1.0, double width = 1.0)
+    {
+        double area = length * width;
+        return area;
+    }
+    static void Main()
+    {
+        double area1 = CalculateArea();   
+        double area2 = CalculateArea(8.0);            
+        double area3 = CalculateArea(9.0, 6.0);       
+
+        Console.WriteLine($"Area 1: {area1}");
+        Console.WriteLine($"Area 2: {area2}");
+        Console.WriteLine($"Area 3: {area3}");
+    }
+}
+
+
+//// Q1-c ////
+--------------
+
+
+class Program
+{
+    static int AddNumbers(int a, int b)
+    {
+        return a + b;
+    }
+    static int AddNumbers(int a, int b, int c = 0)
+    {
+        return a + b + c;
+    }
+    static void Main()
+    {
+        int sum1 = AddNumbers(17, 21);          
+        int sum2 = AddNumbers(3, 12, 18);       
+        int sum3 = AddNumbers(6, 9);            
+
+        Console.WriteLine($"Sum 1: {sum1}");   
+        Console.WriteLine($"Sum 2: {sum2}");   
+        Console.WriteLine($"Sum 3: {sum3}");   
+    }
+}
+
+
+//// Q1-d ////
+--------------
+
+
+class Book
+{
+    public string Title { get; set; }
+    public string Author { get; set; }
+
+    public Book(string title, string author = "Unknown")
+    {
+        Title = title;
+        Author = author;
+    }
+    public void DisplayDetails()
+    {
+        Console.WriteLine($"Title: {Title}");
+        Console.WriteLine($"Author: {Author}");
+        Console.WriteLine();
+    }
+}
+class Program
+{
+    static void Main()
+    {
+        Book book1 = new Book("Book 1", "Author 1");
+        Book book2 = new Book("Book 2");
+
+        Console.WriteLine("Book 1 Details:");
+        book1.DisplayDetails();
+
+        Console.WriteLine("Book 2 Details:");
+        book2.DisplayDetails();
+    }
+}
+
+
+//// Q2-a ////
+--------------
+
+
+using System.Collections.Generic;
+
+class MyList<T>
+{
+    private List<T> items;
+
+    public MyList()
+    {
+        items = new List<T>();
+    }
+    public void Add(T item)
+    {
+        items.Add(item);
+    }
+    public bool Remove(T item)
+    {
+        return items.Remove(item);
+    }
+
+    public void Display()
+    {
+        Console.WriteLine("Elements in List are:");
+        foreach (T item in items)
+        {
+            Console.WriteLine(item);
+        }
+        Console.WriteLine();
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Creating an instance of MyList for integers
+        MyList<int> intList = new MyList<int>();
+
+        intList.Add(1);
+        intList.Add(2);
+        intList.Add(3);
+
+        intList.Display();
+
+        bool removed = intList.Remove(2);
+        if (removed)
+        {
+            Console.WriteLine("Removed 2 from the list.");
+            intList.Display();
+        }
+        else
+        {
+            Console.WriteLine("Element not found.");
+        }
+
+        // Creating an instance of MyList for strings
+        MyList<string> stringList = new MyList<string>();
+
+        stringList.Add("Apple");
+        stringList.Add("Banana");
+        stringList.Add("Cherry");
+
+        stringList.Display();
+    }
+}
+
+
+//// Q2-b ////
+--------------
+
+
+class Program
+{
+    static void Swap<T>(ref T first, ref T second)
+    {
+        T temp = first;
+        first = second;
+        second = temp;
+    }
+    static void Main()
+    {
+        int a = 5, b = 10;
+        Console.WriteLine($"Before swapping: a = {a}, b = {b}");
+        Swap(ref a, ref b);
+        Console.WriteLine($"After swapping: a = {a}, b = {b}");
+
+        string str1 = "Hello", str2 = "World";
+        Console.WriteLine($"Before swapping: str1 = \"{str1}\", str2 = \"{str2}\"");
+        Swap(ref str1, ref str2);
+        Console.WriteLine($"After swapping: str1 = \"{str1}\", str2 = \"{str2}\"");
+    }
+}
+
+
+//// Q2-c ////
+--------------
+
+
+class Program
+{
+    static void Main()
+    {
+        int[] intArray = { 2, 55, 6, 7, 8 };
+        double[] doubleArray = { 4.5, 2.0, 8.5 };
+        string[] stringArray = { "Hello", "World" };
+
+        int intSum = SumElements(intArray);
+        double doubleSum = SumElements(doubleArray);
+
+        Console.WriteLine($"Sum of integers: {intSum}");
+        Console.WriteLine($"Sum of doubles: {doubleSum}");
+    }
+
+    // Generic method with constraints to compute the sum of elements in an array.
+    static T SumElements<T>(T[] array) where T : struct, IConvertible, IComparable, IFormattable
+    {
+        if (array == null || array.Length == 0)
+            throw new ArgumentException("Array cannot be null or empty.");
+
+        T sum = default(T);
+
+        foreach (T element in array)
+        {
+            sum = Add(sum, element);
+        }
+        return sum;
+    }
+}
+
+
+//// Q2-d ////
+--------------
+
+
+using System.Collections.Generic;
+
+class Program
+{
+    static Dictionary<int, string> studentDatabase = new Dictionary<int, string>();
+
+    static void Main()
+    {
+        // Initialize the student database
+        AddStudent(101, "Alice");
+        AddStudent(102, "Bob");
+        AddStudent(103, "Charlie");
+        AddStudent(104, "David");
+
+        while (true)
+        {
+            Console.WriteLine("Student Database Management System");
+            Console.WriteLine("1. View the student database");
+            Console.WriteLine("2. Search for a student by ID");
+            Console.WriteLine("3. Update a student's name");
+            Console.WriteLine("4. Exit");
+            Console.Write("Please select an option (1-4): ");
+
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
+                {
+                    case 1:
+                        DisplayStudentDatabase();
+                        break;
+                    case 2:
+                        SearchStudentByID();
+                        break;
+                    case 3:
+                        UpdateStudentName();
+                        break;
+                    case 4:
+                        Console.WriteLine("Exiting the program.");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please select a valid option (1-4).");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a valid option (1-4).");
+            }
+
+            Console.WriteLine();
+        }
+    }
+
+    static void AddStudent(int studentID, string studentName)
+    {
+        if (!studentDatabase.ContainsKey(studentID))
+        {
+            studentDatabase.Add(studentID, studentName);
+            Console.WriteLine($"Added Student ID {studentID}: {studentName}");
+        }
+        else
+        {
+            Console.WriteLine($"Student ID {studentID} already exists in the database.");
+        }
+    }
+
+    static void DisplayStudentDatabase()
+    {
+        Console.WriteLine("Student Database:");
+        foreach (var kvp in studentDatabase)
+        {
+            Console.WriteLine($"Student ID {kvp.Key}: {kvp.Value}");
+        }
+    }
+
+    static void SearchStudentByID()
+    {
+        Console.Write("Enter a student ID to search: ");
+        if (int.TryParse(Console.ReadLine(), out int studentID))
+        {
+            if (studentDatabase.ContainsKey(studentID))
+            {
+                string studentName = studentDatabase[studentID];
+                Console.WriteLine($"Student ID {studentID}: {studentName}");
+            }
+            else
+            {
+                Console.WriteLine($"Student ID {studentID} not found in the database.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid student ID.");
+        }
+    }
+
+    static void UpdateStudentName()
+    {
+        Console.Write("Enter a student ID to update: ");
+        if (int.TryParse(Console.ReadLine(), out int studentID))
+        {
+            if (studentDatabase.ContainsKey(studentID))
+            {
+                Console.Write("Enter the new name: ");
+                string newName = Console.ReadLine();
+                studentDatabase[studentID] = newName;
+                Console.WriteLine($"Updated Student ID {studentID} with the new name: {newName}");
+            }
+            else
+            {
+                Console.WriteLine($"Student ID {studentID} not found in the database.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid student ID.");
+        }
+    }
+}
+
+
+
